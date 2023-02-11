@@ -1,3 +1,6 @@
+//!
+//! `AccountMeta` class bindings.
+//!
 use crate::imports::*;
 use solana_program::instruction::AccountMeta as SolanaAccountMeta;
 

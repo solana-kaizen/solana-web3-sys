@@ -1,3 +1,7 @@
+//!
+//! Utility functions.
+//!
+
 use crate::imports::*;
 
 pub fn pubkey_to_jsvalue(pubkey: &Pubkey) -> Result<JsValue> {

@@ -1,3 +1,7 @@
+//!
+//! JavaScript Options object helper.
+//!
+
 use js_sys::Object;
 use wasm_bindgen::prelude::*;
 

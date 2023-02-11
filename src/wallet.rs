@@ -1,3 +1,7 @@
+//!
+//! `WalletAdapter` class bindings.
+//!
+
 use crate::imports::*;
 use crate::transaction::*;
 

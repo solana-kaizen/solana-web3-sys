@@ -1,7 +1,9 @@
-use thiserror::Error;
+//!
+//! [`Error`] variants produced by this crate.
+//!
 use wasm_bindgen::prelude::*;
 
-#[derive(Error, Debug)]
+#[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("{0:?}")]
     JsValue(JsValue),

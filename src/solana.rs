@@ -1,3 +1,7 @@
+//!
+//! `solana-web3-sys` initialization hooks.
+//!
+
 use crate::imports::*;
 
 static mut SOLANA_WEB3JS_GLOBAL: Option<JsValue> = None;

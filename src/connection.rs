@@ -1,3 +1,6 @@
+//!
+//! `Connection` class bindings.
+//!
 use crate::imports::*;
 
 #[wasm_bindgen]

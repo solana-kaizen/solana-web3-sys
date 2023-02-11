@@ -1,3 +1,7 @@
+//!
+//! `Transaction` class bindings.
+//!
+
 use crate::imports::*;
 use crate::instruction::TransactionInstruction;
 

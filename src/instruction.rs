@@ -1,3 +1,6 @@
+//!
+//! `TransactionInstruction` class bindings.
+//!
 use crate::account::*;
 use crate::imports::*;
 use solana_program::instruction::Instruction;

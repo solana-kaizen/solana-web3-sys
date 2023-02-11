@@ -23,7 +23,7 @@ pub mod wallet;
 pub mod prelude {
     //!
     //! Prelude containing imports exposed by this crate.
-    //! 
+    //!
     use super::*;
     pub use account::*;
     pub use connection::*;

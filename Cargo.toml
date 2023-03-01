@@ -16,3 +16,4 @@ solana-program = "1.15.1"
 thiserror = "1.0.38"
 wasm-bindgen = "0.2.84"
 wasm-bindgen-futures = "0.4.34"
+workflow-log = {path="../workflow-rs/log"}

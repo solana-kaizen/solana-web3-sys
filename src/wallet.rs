@@ -16,14 +16,14 @@ extern "C" {
     ///
     pub fn pubkey(this: &WalletAdapter) -> JsValue;
 
-    #[wasm_bindgen(method, js_name = "signTransaction")]
+    #[wasm_bindgen(method, catch, js_name = "signTransaction")]
     /// sign transaction
     ///
-    pub async fn sign_transaction_impl(this: &WalletAdapter, tx: Transaction) -> JsValue;
+    pub async fn sign_transaction_impl(this: &WalletAdapter, tx: Transaction) -> Result<JsValue>;
 }
 
 impl WalletAdapter {
     pub async fn sign_transaction(&self, tx: &Transaction) -> Result<JsValue> {
-        Ok(self.sign_transaction_impl(tx.clone()).await)
+        self.sign_transaction_impl(tx.clone()).await
     }
 }

@@ -1,10 +1,11 @@
 //!
 //! `Connection` class bindings.
 //!
+use crate::api::*;
 use crate::imports::*;
-use js_sys::Reflect;
+use crate::publickey::PublicKey;
+use solana_sdk::account::Account;
 use workflow_log::log_trace;
-//use solana_program::account::AccountInfo;
 
 #[wasm_bindgen]
 extern "C" {
@@ -112,37 +113,6 @@ extern "C" {
     #[derive(Debug, Clone, PartialEq, Eq)]
     pub type SendRawTxOptions;
 
-    #[wasm_bindgen(extends = Object)]
-    #[derive(Debug)]
-    pub type GetProgramAccountsConfig;
-
-    #[wasm_bindgen(extends = Object)]
-    #[derive(Debug)]
-    pub type ProgramAccountsResultItem;
-
-    #[wasm_bindgen(getter, method)]
-    pub fn account(this: &ProgramAccountsResultItem) -> ProgramAccount;
-
-    #[wasm_bindgen(getter, method, js_name = "pubkey")]
-    pub fn pubkey_impl(this: &ProgramAccountsResultItem) -> PublicKey;
-
-    #[wasm_bindgen(extends = Object)]
-    #[derive(Debug)]
-    pub type ProgramAccount;
-
-    #[wasm_bindgen(getter, method)]
-    pub fn data(this: &ProgramAccount) -> Vec<u8>;
-
-    #[wasm_bindgen(js_namespace=solanaWeb3, js_name = PublicKey)]
-    #[derive(Debug)]
-    pub type PublicKey;
-
-    #[wasm_bindgen(method, js_name = "toBytes")]
-    pub fn to_bytes(this: &PublicKey) -> Vec<u8>;
-
-    #[wasm_bindgen(method, js_name = "toString")]
-    pub fn to_string(this: &PublicKey) -> String;
-
 }
 
 impl Connection {
@@ -159,7 +129,7 @@ impl Connection {
         pubkey: &Pubkey,
         options: JsValue,
     ) -> Result<JsValue> {
-        self.get_account_info_with_options_impl(pubkey_to_jsvalue(pubkey)?, options)
+        self.get_account_info_with_options_impl(PublicKey::try_from(pubkey)?.into(), options)
             .await
     }
 
@@ -176,52 +146,25 @@ impl Connection {
         &self,
         pubkey: &Pubkey,
         config: GetProgramAccountsConfig,
-    ) -> Result<Vec<(Pubkey, ProgramAccount)>> {
-        /*
-        let commitment = config
-            .account_config
-            .commitment
-            .unwrap_or_else(|| self.commitment());
-        let commitment = self.maybe_map_ommitment(commitment).await?;
-        config.account_config.commitment = Some(commitment);
-        if let Some(filters) = config.filters {
-            config.filters = Some(self.maybe_map_filters(filters).await?);
-        }
-
-        let accounts = self
-            .send::<OptionalContext<Vec<RpcKeyedAccount>>>(
-                RpcRequest::GetProgramAccounts,
-                json!([pubkey.to_string(), config]),
-            )
-            .await?
-            .parse_value();
-        parse_keyed_accounts(accounts, RpcRequest::GetProgramAccounts)
-        */
-        //let config = config.into();
-
-        log_trace!("config: {config:?}");
-
+    ) -> Result<Vec<(Pubkey, Account)>> {
         let res = self
             .get_program_accounts_with_config_impl(pubkey_to_jsvalue(pubkey)?, config)
             .await?;
 
         log_trace!("array: {res:#?}, is_array:{}", res.is_array());
         let mut result = vec![];
-        if res.is_array() {
-            let array = Array::from(&res);
-            let size = array.length();
-            for index in 0..size {
-                let item = array.get(index);
-                if item.is_object() {
-                    if let Ok(item) = TryInto::<ProgramAccountsResultItem>::try_into(item) {
-                        let key = item.pubkey()?;
-                        let account = item.account();
-                        log_trace!("item.pubkey: {:?}", key);
-                        log_trace!("item.account: {:?}", item.account());
-                        log_trace!("item.account.data: {:?}", item.account().data());
-                        result.push((key, account))
-                    }
-                }
+        if !res.is_array() {
+            return Ok(result);
+        }
+        let array = Array::from(&res);
+        let size = array.length();
+        for index in 0..size {
+            let item = array.get(index);
+            if !item.is_object() {
+                continue;
+            }
+            if let Ok(item) = ProgramAccountsResultItem::try_from(item) {
+                result.push((item.pubkey()?, item.account().try_into()?))
             }
         }
 
@@ -235,60 +178,5 @@ impl SendRawTxOptions {
     /// set skipPreflight
     pub fn skip_preflight(self, skip_preflight: bool) -> Self {
         self.set("skipPreflight", JsValue::from(skip_preflight))
-    }
-}
-
-impl OptionsTrait for GetProgramAccountsConfig {}
-
-pub enum GetProgramAccountsFilter {
-    /// Memory comparison filter
-    Memcmp(u64, String),
-    /// Data size comparison filter
-    DataSize(u64),
-}
-
-impl TryFrom<GetProgramAccountsFilter> for JsValue {
-    type Error = crate::error::Error;
-    fn try_from(value: GetProgramAccountsFilter) -> Result<Self> {
-        let obj = Object::new();
-        match value {
-            GetProgramAccountsFilter::Memcmp(offset, data) => {
-                let memcmp = Object::new();
-                Reflect::set(&memcmp, &JsValue::from("offset"), &JsValue::from(offset))?;
-                Reflect::set(&memcmp, &JsValue::from("bytes"), &JsValue::from(data))?;
-                Reflect::set(&obj, &JsValue::from("memcmp"), &memcmp.into())?;
-            }
-            GetProgramAccountsFilter::DataSize(data_size) => {
-                Reflect::set(&obj, &JsValue::from("dataSize"), &JsValue::from(data_size))?;
-            }
-        }
-
-        Ok(obj.into())
-    }
-}
-
-impl GetProgramAccountsConfig {
-    pub fn add_filters(self, filters: Vec<GetProgramAccountsFilter>) -> Result<Self> {
-        let list = Array::new();
-        for filter in filters {
-            list.push(&filter.try_into()?);
-        }
-        Ok(self.set("filters", list.into()))
-    }
-}
-
-impl ProgramAccountsResultItem {
-    pub fn pubkey(&self) -> Result<Pubkey> {
-        match self.pubkey_impl().try_into() {
-            Ok(value) => Ok(value),
-            Err(_) => Err(JsValue::from("Invalid pubkey").into()),
-        }
-    }
-}
-
-impl TryFrom<PublicKey> for Pubkey {
-    type Error = Vec<u8>;
-    fn try_from(key: PublicKey) -> std::result::Result<Self, Vec<u8>> {
-        Pubkey::try_from(key.to_bytes())
     }
 }

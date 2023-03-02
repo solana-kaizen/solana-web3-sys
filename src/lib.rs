@@ -10,10 +10,12 @@ Rust `wasm_bindgen` bindings for [Solana `web3.js` APIs](https://docs.solana.com
 */
 
 pub mod account;
+pub mod api;
 pub mod connection;
 pub mod error;
 pub mod instruction;
 pub mod options;
+pub mod publickey;
 pub mod result;
 pub mod solana;
 pub mod transaction;
@@ -26,9 +28,11 @@ pub mod prelude {
     //!
     use super::*;
     pub use account::*;
+    pub use api::*;
     pub use connection::*;
     pub use instruction::*;
     pub use options::*;
+    pub use publickey::*;
     pub use solana::*;
     pub use transaction::*;
     pub use utils::*;

@@ -7,4 +7,3 @@ pub use js_sys::{Array, Object, Uint8Array};
 pub use solana_program::pubkey::Pubkey;
 pub use wasm_bindgen::prelude::*;
 pub use wasm_bindgen::JsValue;
-// use crate::wasm::solana_sys::TransactionInstructionConfig;

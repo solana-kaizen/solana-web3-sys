@@ -88,7 +88,7 @@ extern "C" {
     pub async fn get_program_accounts_with_config_impl(
         this: &Connection,
         public_key: JsValue,
-        config: GetProgramAccountsConfig,
+        config: RpcProgramAccountsConfig,
     ) -> Result<JsValue>;
 
     #[wasm_bindgen(extends = Object)]
@@ -145,7 +145,7 @@ impl Connection {
     pub async fn get_program_accounts_with_config(
         &self,
         pubkey: &Pubkey,
-        config: GetProgramAccountsConfig,
+        config: RpcProgramAccountsConfig,
     ) -> Result<Vec<(Pubkey, Account)>> {
         let res = self
             .get_program_accounts_with_config_impl(pubkey_to_jsvalue(pubkey)?, config)

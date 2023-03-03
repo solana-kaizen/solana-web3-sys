@@ -5,7 +5,7 @@ use crate::api::*;
 use crate::imports::*;
 use crate::publickey::PublicKey;
 use solana_sdk::account::Account;
-use workflow_log::log_trace;
+//use workflow_log::log_trace;
 
 #[wasm_bindgen]
 extern "C" {
@@ -151,7 +151,7 @@ impl Connection {
             .get_program_accounts_with_config_impl(pubkey_to_jsvalue(pubkey)?, config)
             .await?;
 
-        log_trace!("array: {res:#?}, is_array:{}", res.is_array());
+        //log_trace!("array: {res:#?}, is_array:{}", res.is_array());
         let mut result = vec![];
         if !res.is_array() {
             return Ok(result);

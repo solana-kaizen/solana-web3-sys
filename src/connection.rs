@@ -1,6 +1,7 @@
 //!
 //! `Connection` class bindings.
 //!
+use crate::account::ProgramAccount;
 use crate::api::*;
 use crate::imports::*;
 use crate::publickey::PublicKey;
@@ -120,8 +121,19 @@ impl Connection {
         Ok(self.get_latest_block_hash_impl().await?.into())
     }
 
-    pub async fn get_account_info(&self, pubkey: &Pubkey) -> Result<JsValue> {
-        self.get_account_info_impl(pubkey_to_jsvalue(pubkey)?).await
+    pub async fn get_account_info(&self, pubkey: &Pubkey) -> Result<Account> {
+        let value = self
+            .get_account_info_impl(PublicKey::try_from(pubkey)?.into())
+            .await?;
+        if !value.is_object() {
+            return Err(JsValue::from(format!("Account not found: {pubkey:?}")).into());
+        }
+        let account: ProgramAccount = value.try_into().or_else(|_| {
+            Err(JsValue::from(
+                "Unable to convert account into to ProgramAccount",
+            ))
+        })?;
+        account.try_into()
     }
 
     pub async fn get_account_info_with_options(

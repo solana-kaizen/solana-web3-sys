@@ -89,6 +89,9 @@ impl TryFrom<ProgramAccount> for Account {
     type Error = crate::error::Error;
 
     fn try_from(account: ProgramAccount) -> Result<Self> {
+        if !account.is_object() {
+            return Err(JsValue::from("Invalid ProgramAccount").into());
+        }
         Ok(Self {
             lamports: account.lamports().as_f64().unwrap() as u64,
             data: account.data(),

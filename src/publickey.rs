@@ -7,6 +7,9 @@ extern "C" {
     pub type PublicKey;
 
     #[wasm_bindgen(constructor, js_namespace=solanaWeb3)]
+    pub fn new(str: String) -> PublicKey;
+
+    #[wasm_bindgen(constructor, js_namespace=solanaWeb3)]
     pub fn new_from_array(bytes: Vec<u8>) -> PublicKey;
 
     #[wasm_bindgen(method, js_name = "toBytes")]
@@ -40,5 +43,13 @@ impl TryFrom<&[u8]> for PublicKey {
 
     fn try_from(bytes: &[u8]) -> Result<Self> {
         Ok(PublicKey::new_from_array(bytes.to_vec()))
+    }
+}
+
+impl TryFrom<&str> for PublicKey {
+    type Error = crate::error::Error;
+
+    fn try_from(str: &str) -> Result<Self> {
+        Ok(PublicKey::new(str.to_string()))
     }
 }

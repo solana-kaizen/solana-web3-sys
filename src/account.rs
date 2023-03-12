@@ -1,5 +1,5 @@
 //!
-//! `AccountMeta` class bindings.
+//! `AccountMeta` , `ProgramAccount` class bindings.
 //!
 use crate::imports::*;
 use crate::publickey::PublicKey;
@@ -11,6 +11,7 @@ use solana_sdk::account::Account;
 extern "C" {
     #[wasm_bindgen(extends = Object)]
     #[derive(Debug, Clone, PartialEq, Eq)]
+    /// AccountMeta is bindings for [`AccountMeta`](solana_program::instruction::AccountMeta)
     pub type AccountMeta;
 
     #[wasm_bindgen(extends = Object)]

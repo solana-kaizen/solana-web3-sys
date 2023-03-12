@@ -1,5 +1,5 @@
 # `solana-web3-sys`
-Rust `wasm_bindgen` bindings for Solana `web3.js` APIs
+Rust `wasm_bindgen` bindings for Solana `web3.js` API
 
 
 [<img alt="github" src="https://img.shields.io/badge/github-solana--kaizen/solana--web3--sys-8da0cb?style=for-the-badge&labelColor=555555&color=8da0cb&logo=github" height="20">](https://github.com/solana-kaizen/solana-web3-sys)

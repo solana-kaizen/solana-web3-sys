@@ -1,5 +1,5 @@
 //!
-//! `Transaction` class bindings.
+//! [`Transaction`](https://solana-labs.github.io/solana-web3.js/classes/Transaction.html) class bindings.
 //!
 
 use crate::imports::*;

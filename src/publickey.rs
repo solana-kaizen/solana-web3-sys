@@ -1,3 +1,7 @@
+//!
+//! [`PublicKey`](https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html) class bindings.
+//! 
+
 use crate::imports::*;
 
 #[wasm_bindgen]

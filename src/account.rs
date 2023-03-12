@@ -1,5 +1,5 @@
 //!
-//! `AccountMeta` class bindings.
+//! [`AccountMeta`](https://solana-labs.github.io/solana-web3.js/types/AccountMeta.html) and `ProgramAccount` (alias to [`AccountInfo`](https://solana-labs.github.io/solana-web3.js/types/AccountInfo.html)) class bindings.
 //!
 use crate::imports::*;
 use crate::publickey::PublicKey;
@@ -15,7 +15,8 @@ extern "C" {
 
     #[wasm_bindgen(extends = Object)]
     #[derive(Debug)]
-    /// Information describing an account
+    /// Information describing an account. This type is an alias for interfacing with the [`AccountInfo`](https://solana-labs.github.io/solana-web3.js/types/AccountInfo.html) class.
+    /// In `solana-web3-sys` JavaScript AccountInfo class is renamed to `ProgramAccount` to prevent name clashes with native Solana SDK `AccountInfo` class.
     ///
     /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/types/AccountInfo.html)
     ///

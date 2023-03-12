@@ -1,5 +1,5 @@
 //!
-//! `Connection` class bindings.
+//! [`Connection`](https://solana-labs.github.io/solana-web3.js/classes/Connection.html) class bindings.
 //!
 use crate::account::ProgramAccount;
 use crate::api::*;

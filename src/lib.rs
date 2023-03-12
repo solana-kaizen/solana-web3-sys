@@ -5,7 +5,7 @@
 [<img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-solana--web3--sys-56c2a5?maxAge=2592000&style=for-the-badge&logo=rust" height="20">](https://docs.rs/solana-web3-sys)
 <img alt="license" src="https://img.shields.io/crates/l/solana-web3-sys.svg?maxAge=2592000&color=6ac&style=for-the-badge&logoColor=fff" height="20">
 
-Rust `wasm_bindgen` bindings for [Solana `web3.js` APIs](https://docs.solana.com/developing/clients/javascript-api)
+Rust `wasm_bindgen` bindings for [Solana `web3.js` API](https://docs.solana.com/developing/clients/javascript-api)
 
 */
 

@@ -9,6 +9,10 @@ use crate::instruction::TransactionInstruction;
 extern "C" {
     #[wasm_bindgen(js_namespace=solanaWeb3, js_name = Transaction)]
     #[derive(Debug, Clone)]
+    /// Transaction
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/Transaction.html)
+    ///
     pub type Transaction;
 
     #[wasm_bindgen(constructor, js_namespace=["solanaWeb3"])]

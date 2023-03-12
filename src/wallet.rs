@@ -9,6 +9,8 @@ use crate::transaction::*;
 extern "C" {
     #[wasm_bindgen(extends = Object)]
     #[derive(Debug, Clone, PartialEq, Eq)]
+    /// WalletAdapter
+    ///
     pub type WalletAdapter;
 
     #[wasm_bindgen(getter, method, js_name = "publicKey")]

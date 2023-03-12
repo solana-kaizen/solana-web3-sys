@@ -4,18 +4,38 @@ use crate::imports::*;
 extern "C" {
     #[wasm_bindgen(js_namespace=solanaWeb3, js_name = PublicKey)]
     #[derive(Debug)]
+    /// PublicKey
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html)
+    ///
     pub type PublicKey;
 
     #[wasm_bindgen(constructor, js_namespace=solanaWeb3)]
+    /// Create [`PublicKey`] from sring
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html#constructor)
+    ///
     pub fn new(str: String) -> PublicKey;
 
     #[wasm_bindgen(constructor, js_namespace=solanaWeb3)]
+    /// Create [`PublicKey`] from bytes array
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html#constructor)
+    ///
     pub fn new_from_array(bytes: Vec<u8>) -> PublicKey;
 
     #[wasm_bindgen(method, js_name = "toBytes")]
+    /// Convert [`PublicKey`] to bytes array
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html#toBytes)
+    ///
     pub fn to_bytes(this: &PublicKey) -> Vec<u8>;
 
     #[wasm_bindgen(method, js_name = "toString")]
+    /// Convert [`PublicKey`] to string
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/PublicKey.html#toString)
+    ///
     pub fn to_string(this: &PublicKey) -> String;
 }
 

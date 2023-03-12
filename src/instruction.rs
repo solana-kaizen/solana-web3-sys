@@ -9,6 +9,10 @@ use solana_program::instruction::Instruction;
 extern "C" {
     #[wasm_bindgen(extends = Object)]
     #[derive(Debug, Clone, PartialEq, Eq)]
+    /// TransactionInstructionConfig (TransactionInstructionCtorFields)
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/types/TransactionInstructionCtorFields.html)
+    ///
     pub type TransactionInstructionConfig;
 }
 
@@ -39,6 +43,10 @@ impl TransactionInstructionConfig {
 extern "C" {
     #[wasm_bindgen(js_namespace=solanaWeb3, js_name = TransactionInstruction)]
     #[derive(Debug, Clone)]
+    /// TransactionInstruction
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/TransactionInstruction.html)
+    ///
     pub type TransactionInstruction;
 
     #[wasm_bindgen(constructor, js_namespace=["solanaWeb3"])]

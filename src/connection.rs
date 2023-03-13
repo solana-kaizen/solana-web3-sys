@@ -128,9 +128,9 @@ impl Connection {
         if !value.is_object() {
             return Err(JsValue::from(format!("Account not found: {pubkey:?}")).into());
         }
-        let account: ProgramAccount = value.try_into().or_else(|_| {
-            Err(JsValue::from(
-                "Unable to convert account into to ProgramAccount",
+        let account: ProgramAccount = value.try_into().map_err(|err| {
+            JsValue::from(format!(
+                "Unable to convert account into to ProgramAccount: {err}"
             ))
         })?;
         account.try_into()

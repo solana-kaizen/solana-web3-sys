@@ -3,6 +3,7 @@
 //!
 
 use crate::imports::*;
+use crate::prelude::Connection;
 use crate::transaction::*;
 
 #[wasm_bindgen]
@@ -27,6 +28,11 @@ extern "C" {
     /// sign and send transaction
     ///
     pub async fn sign_and_send_transaction(this: &WalletAdapter, tx: Transaction) -> Result<JsValue>;
+    
+    #[wasm_bindgen(method, catch, js_namespace=solanaWeb3, js_name = "sendTransaction")]
+    /// send transaction
+    ///
+    pub async fn send_transaction(this: &WalletAdapter, tx: Transaction, con:Connection) -> Result<JsValue>;
 }
 
 impl WalletAdapter {

@@ -48,8 +48,31 @@ extern "C" {
     ///
     /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/classes/Transaction.html#serialize)
     ///
-    pub fn serialize(this: &Transaction) -> JsValue;
+    pub fn serialize(this: &Transaction, config:SerializeConfig) -> JsValue;
 
+    #[wasm_bindgen(extends = Object)]
+    #[derive(Debug, Clone, PartialEq, Eq)]
+    /// Configuration object for Transaction.serialize()
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/types/SerializeConfig.html)
+    ///
+    pub type SerializeConfig;
+
+    #[wasm_bindgen(setter, method, js_name="requireAllSignatures")]
+    /// Setter: requireAllSignatures Require all transaction signatures be present (default: true)
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/types/SerializeConfig.html)
+    ///
+    pub fn set_require_all_signatures(this: &SerializeConfig, require_all_signatures: bool);
+
+    #[wasm_bindgen(setter, method, js_name="verifySignatures")]
+    /// Setter: Verify provided signatures (default: true)
+    ///
+    /// ⧉ [Solana Documentation](https://solana-labs.github.io/solana-web3.js/types/SerializeConfig.html)
+    ///
+    pub fn set_verify_signatures(this: &SerializeConfig, verify_signatures: bool);
 }
 
 impl Transaction {}
+
+impl OptionsTrait for SerializeConfig {}

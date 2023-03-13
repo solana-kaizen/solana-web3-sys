@@ -7,21 +7,26 @@ use crate::transaction::*;
 
 #[wasm_bindgen]
 extern "C" {
-    #[wasm_bindgen(extends = Object)]
-    #[derive(Debug, Clone, PartialEq, Eq)]
+    #[wasm_bindgen(js_namespace=solanaWeb3, js_name = PhantomWalletAdapter)]
+    #[derive(Debug, Clone)]
     /// WalletAdapter
     ///
     pub type WalletAdapter;
 
-    #[wasm_bindgen(getter, method, js_name = "publicKey")]
+    #[wasm_bindgen(getter, method, js_namespace=solanaWeb3, js_name = "publicKey")]
     /// get pubKey
     ///
     pub fn pubkey(this: &WalletAdapter) -> JsValue;
 
-    #[wasm_bindgen(method, catch, js_name = "signTransaction")]
+    #[wasm_bindgen(method, catch, js_namespace=solanaWeb3, js_name = "signTransaction")]
     /// sign transaction
     ///
     pub async fn sign_transaction_impl(this: &WalletAdapter, tx: Transaction) -> Result<JsValue>;
+
+    #[wasm_bindgen(method, catch, js_namespace=solanaWeb3, js_name = "signAndSendTransaction")]
+    /// sign and send transaction
+    ///
+    pub async fn sign_and_send_transaction(this: &WalletAdapter, tx: Transaction) -> Result<JsValue>;
 }
 
 impl WalletAdapter {

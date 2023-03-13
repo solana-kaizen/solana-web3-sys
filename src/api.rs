@@ -1,6 +1,6 @@
 //!
 //! Misc. bindings for utility classes (`RpcProgramAccountsConfig` etc.)
-//! 
+//!
 
 use crate::imports::*;
 use js_sys::Reflect;
